@@ -33,6 +33,18 @@ public class AuthResource implements AuthController {
             .build()
         ;
     }
+    
+    @Override
+    public ResponseEntity<Void> logout() {
+        return ResponseEntity
+            .ok()
+            .header(
+                HttpHeaders.SET_COOKIE,
+                buildTokenCookie(null, 0l).toString()
+            )
+            .build()
+        ;
+    }
 
     @Override
     public ResponseEntity<Void> register(RegisterIn in) {
@@ -41,9 +53,8 @@ public class AuthResource implements AuthController {
     }
 
     @Override
-    public ResponseEntity<AccountOut> whoIAm() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'whoIAm'");
+    public ResponseEntity<AccountOut> whoIAm(String idAccount) {
+        return ResponseEntity.ok(authService.whoIAm(idAccount));
     }
 
     @Override

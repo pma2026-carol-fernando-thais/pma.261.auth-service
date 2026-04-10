@@ -66,5 +66,9 @@ public class AuthService {
         // devolver o idAccount
         return jwtService.getId(token);
     }
+
+    public AccountOut whoIAm(String idAccount) {
+        return accountController.findById(idAccount).getBody();
+    }
     
 }
