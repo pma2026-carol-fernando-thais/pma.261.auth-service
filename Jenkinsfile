@@ -3,8 +3,8 @@ pipeline {
     environment {
         SERVICE = 'auth'
         NAME = "humbertosandmann/${env.SERVICE}"
-        AWS_REGION = 'us-east-1'
-        EKS_CLUSTER = 'store-cluster'
+        AWS_REGION = 'us-east-2'
+        EKS_CLUSTER = 'eks-store2'
     }
     stages {
         stage('SCM') {
