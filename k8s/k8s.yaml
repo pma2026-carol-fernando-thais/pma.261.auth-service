@@ -1,0 +1,76 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: auth-secret
+  namespace: store
+type: Opaque
+stringData:
+  JWT_SECRET_KEY: ${JWT_SECRET_KEY}
+
+---
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: auth-config
+  namespace: store
+data:
+  JWT_HTTP_ONLY: "true"
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: auth-deployment
+  namespace: store
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: auth
+  template:
+    metadata:
+      labels:
+        app: auth
+    spec:
+      containers:
+        - name: auth
+          image: humbertosandmann/auth:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "250m"
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
+          env:
+            - name: JWT_SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: auth-secret
+                  key: JWT_SECRET_KEY
+            - name: JWT_HTTP_ONLY
+              valueFrom:
+                configMapKeyRef:
+                  name: auth-config
+                  key: JWT_HTTP_ONLY
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: auth
+  namespace: store
+  labels:
+    app: auth
+spec:
+  type: ClusterIP
+  selector:
+    app: auth
+  ports:
+    - port: 8080
