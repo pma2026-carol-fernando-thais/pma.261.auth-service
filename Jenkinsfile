@@ -22,6 +22,11 @@ pipeline {
                 sh 'mvn -B -DskipTests clean package'
             }
         }
+        stage('Vulnerability Scan') {
+            steps {
+                sh 'mvn -B org.owasp:dependency-check-maven:check -DfailBuildOnCVSS=11'
+            }
+        }
         stage('Build & Push Image') {
             steps {
                 withCredentials([usernamePassword(
