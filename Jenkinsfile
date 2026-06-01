@@ -2,7 +2,7 @@ pipeline {
     agent any
     environment {
         SERVICE = 'auth'
-        NAME = "humbertosandmann/${env.SERVICE}"
+        NAME = "thaisrs3/${env.SERVICE}"
         AWS_REGION = 'us-east-2'
         EKS_CLUSTER = 'eks-store2'
     }

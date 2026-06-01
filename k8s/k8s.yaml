@@ -36,7 +36,7 @@ spec:
     spec:
       containers:
         - name: auth
-          image: humbertosandmann/auth:latest
+          image: thaisrs3/auth:latest
           imagePullPolicy: Always
           ports:
             - containerPort: 8080
